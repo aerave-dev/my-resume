@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Karlingan Elangovan — IT Manager</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #111111;
+      --mid: #555555;
+      --light: #aaaaaa;
+      --bg: #f7f5f0;
+      --accent: #c8622a;
+      --accent2: #1a4a6b;
+      --card: #ffffff;
+      --border: #e0ddd6;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--accent2);
+      color: #fff;
+      padding: 80px 48px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 380px; height: 380px;
+      border-radius: 50%;
+      background: rgba(200,98,42,0.18);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -120px; left: 60px;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: 1;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .hero-role {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 28px;
+      letter-spacing: 1px;
+    }
+
+    .hero-summary {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.75);
+      max-width: 520px;
+    }
+
+    .hero-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    .contact-pill {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 40px;
+      padding: 8px 18px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: rgba(255,255,255,0.85);
+      white-space: nowrap;
+    }
+
+    /* ── LAYOUT ── */
+    .main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 64px 24px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar { display: flex; flex-direction: column; gap: 40px; }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Skills */
+    .skill-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-chip {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent2);
+      transition: all 0.2s;
+    }
+    .skill-chip:hover {
+      background: var(--accent2);
+      color: #fff;
+      border-color: var(--accent2);
+    }
+
+    /* Languages */
+    .lang-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .lang-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .content { display: flex; flex-direction: column; gap: 56px; }
+
+    /* Timeline */
+    .timeline { display: flex; flex-direction: column; gap: 36px; }
+
+    .job {
+      position: relative;
+      padding-left: 24px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.5s forwards;
+    }
+    .job:nth-child(1) { animation-delay: 0.1s; }
+    .job:nth-child(2) { animation-delay: 0.2s; }
+    .job:nth-child(3) { animation-delay: 0.3s; }
+    .job:nth-child(4) { animation-delay: 0.4s; }
+    .job:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .job::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 6px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .job::after {
+      content: '';
+      position: absolute;
+      left: 3.5px; top: 20px;
+      width: 1px;
+      bottom: -36px;
+      background: var(--border);
+    }
+    .job:last-child::after { display: none; }
+
+    .job-meta {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 4px;
+      flex-wrap: wrap;
+    }
+
+    .job-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--light);
+      letter-spacing: 1px;
+    }
+
+    .job-company {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .job-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .job-role-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent2);
+      margin: 10px 0 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .job-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .job-bullets li {
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--mid);
+      padding-left: 14px;
+      position: relative;
+    }
+    .job-bullets li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 11px;
+      top: 2px;
+    }
+
+    /* Education */
+    .edu-list { display: flex; flex-direction: column; gap: 20px; }
+    .edu-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent2);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+    }
+    .edu-degree {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .edu-school {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+    .edu-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--light);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 32px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--light);
+      border-top: 1px solid var(--border);
+      letter-spacing: 1px;
+    }
+    footer span { color: var(--accent); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .hero { padding: 48px 24px 48px; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-contact { align-items: flex-start; }
+      .main { grid-template-columns: 1fr; padding: 40px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <p class="hero-tag">Resume · IT Professional</p>
+      <h1>Karlingan<br>Elangovan</h1>
+      <p class="hero-role">Assistant Manager, IT</p>
+      <p class="hero-summary">
+        Detail-oriented IT professional with exceptional communication and project management skills.
+        Proven ability to handle multiple tasks effectively in fast-paced environments, with a proactive approach to
+        optimising processes and supporting team objectives.
+      </p>
+    </div>
+    <div class="hero-contact">
+      <div class="contact-pill">✉ karlingan@hotmail.com</div>
+      <div class="contact-pill">📞 9235 5579</div>
+      <div class="contact-pill">🇸🇬 Singapore</div>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN GRID -->
+<div class="main">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div>
+      <p class="section-label">Core Skills</p>
+      <div class="skill-list">
+        <span class="skill-chip">Team Management</span>
+        <span class="skill-chip">Coaching & Mentoring</span>
+        <span class="skill-chip">Relationship Building</span>
+        <span class="skill-chip">Technical Analysis</span>
+        <span class="skill-chip">Training</span>
+        <span class="skill-chip">Customer Engagement</span>
+        <span class="skill-chip">Communication</span>
+        <span class="skill-chip">Creativity</span>
+        <span class="skill-chip">SLA Compliance</span>
+        <span class="skill-chip">IT Operations</span>
+      </div>
+    </div>
+
+    <div>
+      <p class="section-label">Languages</p>
+      <div class="lang-item"><span class="lang-dot"></span> English</div>
+      <div class="lang-item"><span class="lang-dot"></span> Tamil</div>
+      <div class="lang-item"><span class="lang-dot"></span> Telugu</div>
+    </div>
+
+    <div>
+      <p class="section-label">Education</p>
+      <div class="edu-list">
+
+        <div class="edu-item">
+          <div class="edu-degree">B.Sc. Cyber Security &amp; Forensics / Computer Science</div>
+          <div class="edu-school">Murdoch University (Private)</div>
+          <div class="edu-date">2022 – Present</div>
+        </div>
+
+        <div class="edu-item">
+          <div class="edu-degree">Diploma in Information Technology</div>
+          <div class="edu-school">Kaplan (Private)</div>
+          <div class="edu-date">2020 – 2021</div>
+        </div>
+
+        <div class="edu-item">
+          <div class="edu-degree">CCNA · MCSA · ITIL · PMP · Diploma in IT Services</div>
+          <div class="edu-school">Lithan Hall (Private)</div>
+          <div class="edu-date">2015 – 2016</div>
+        </div>
+
+        <div class="edu-item">
+          <div class="edu-degree">GCE 'O' Level</div>
+          <div class="edu-school">BMC (Private)</div>
+          <div class="edu-date">2012</div>
+        </div>
+
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- WORK HISTORY -->
+  <main class="content">
+
+    <section>
+      <p class="section-label">Work History</p>
+      <div class="timeline">
+
+        <!-- Job 1 -->
+        <div class="job">
+          <div class="job-meta">
+            <span class="job-date">Aug 2023 – Present</span>
+            <span class="job-company">X-Pressfeeders Pte Ltd</span>
+          </div>
+          <div class="job-title">Assistant Manager IT</div>
+          <ul class="job-bullets">
+            <li>Manage multiple office locations simultaneously, adhering to deadlines and project timelines.</li>
+            <li>Proactively monitor IT infrastructure performance and propose improvement plans.</li>
+            <li>Review vendor contracts, SLA agreements and ensure pricing accuracy.</li>
+            <li>Lead project management resulting in positive impact on overall company operations.</li>
+            <li>Source, vet and manage vendors; negotiate and execute contracts on behalf of the department.</li>
+            <li>Hire, manage, develop and train staff; conduct performance reviews and administer salaries.</li>
+            <li>Provide coaching and mentoring to employees.</li>
+          </ul>
+        </div>
+
+        <!-- Job 2 -->
+        <div class="job">
+          <div class="job-meta">
+            <span class="job-date">Sep 2017 – Jan 2022</span>
+            <span class="job-company">NCS Pte Ltd</span>
+          </div>
+          <div class="job-title">Operations Manager</div>
+
+          <div class="job-role-label">Role: Operations Manager · Agency: JTC</div>
+          <ul class="job-bullets">
+            <li>Analysed tender documents for key requirements, risks and compliance considerations.</li>
+            <li>Drafted compelling proposals including project plans, cost breakdowns and pricing strategies.</li>
+            <li>Delivered presentations to clients and addressed concerns.</li>
+          </ul>
+
+          <div class="job-role-label">Role: Desktop Support Team Lead / VIP Support Lead · Agency: IRAS</div>
+          <ul class="job-bullets">
+            <li>Consulted for NSCS, AGO, SLA and JTC agencies.</li>
+            <li>Oversaw day-to-day team operations, performance, and resolved team conflicts.</li>
+            <li>Provided 24/7 VIP support and onsite troubleshooting (desktops, laptops, tablets).</li>
+            <li>Maintained asset inventory integrity.</li>
+          </ul>
+        </div>
+
+        <!-- Job 3 -->
+        <div class="job">
+          <div class="job-meta">
+            <span class="job-date">Sep 2016 – Jun 2017</span>
+            <span class="job-company">Visa Worldwide Pte Ltd</span>
+          </div>
+          <div class="job-title">Desktop Support Engineer</div>
+          <ul class="job-bullets">
+            <li>Provided ad-hoc IT maintenance, troubleshooting and monitoring of desktop PCs and printers.</li>
+            <li>Deployed new hardware and software across multiple users and locations.</li>
+            <li>Performed data migration using basic programming and resolved LAN/WAN connectivity issues.</li>
+            <li>Coordinated vendor support requests.</li>
+          </ul>
+        </div>
+
+        <!-- Job 4 -->
+        <div class="job">
+          <div class="job-meta">
+            <span class="job-date">Jan – Jun 2015</span>
+            <span class="job-company">NCS Pte Ltd</span>
+          </div>
+          <div class="job-title">Desktop Support Engineer</div>
+          <ul class="job-bullets">
+            <li>28th SEA Games 2015 / SSOE Project – Ministry of Education.</li>
+            <li>Trained end users on computer hardware and software usage.</li>
+            <li>Troubleshot PC issues within SLA timeframes; supported mass laptop cloning.</li>
+            <li>Monitored incident ticketing via Remedy; supported computer and equipment migration.</li>
+          </ul>
+        </div>
+
+        <!-- Job 5 -->
+        <div class="job">
+          <div class="job-meta">
+            <span class="job-date">Dec 2012 – Dec 2014</span>
+            <span class="job-company">Singapore Naval Force</span>
+          </div>
+          <div class="job-title">Protection and Surveillance</div>
+          <ul class="job-bullets">
+            <li>Deployed to Horsburgh Lighthouse (Pedra Branca) for monitoring and surveillance.</li>
+            <li>Handled anti-hacking and anti-terrorism operations.</li>
+            <li>Maintained equipment inventory and personnel schedules; reported suspicious activities.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  Last updated <span>2025</span> · Karlingan Elangovan · Hosted on GitHub Pages
+</footer>
+
+</body>
+</html>
